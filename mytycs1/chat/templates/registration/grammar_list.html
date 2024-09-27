@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Lessons</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            position: relative; /* Ensure the body can contain the absolute positioned button */
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .card-text {
+            font-size: 1.2em;
+            color: #f0f0f0;
+        }
+
+        /* Different colors for cards */
+        .bg-blue {
+            background-color: #007bff;
+        }
+
+        .bg-yellow {
+            background-color: #ffc107;
+        }
+
+        .bg-green {
+            background-color: #28a745;
+        }
+
+        .bg-orange {
+            background-color: #fd7e14;
+        }
+
+        .bg-red {
+            background-color: #dc3545;
+        }
+
+        .bg-purple {
+            background-color: #6f42c1;
+        }
+
+        /* Styling for the back button */
+        /* Styling for the back button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    right: 30px; /* Adjust if needed */
+    background-color: #dc3545; /* Red background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 25px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for better size */
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #c82333; /* Slightly darker red on hover */
+}
+
+    </style>
+</head>
+
+<body>
+    <button onclick="window.history.back()" class="back-button">
+        ← Back
+    </button>
+    
+    <div class="container">
+        <h1 class="mt-5">Grammar Lessons</h1>
+        
+        <div class="row">
+            {% for lesson in lessons %}
+                <div class="col-md-4">
+                    <div class="card {% cycle 'bg-blue' 'bg-yellow' 'bg-green' 'bg-orange' 'bg-red' 'bg-purple' %}">
+                        <div class="card-body" data-toggle="modal" data-target="#grammarModal{{ lesson.id }}">
+                            <h5 class="card-title">{{ lesson.title }}</h5>
+                            <p class="card-text">{{ lesson.content|slice:":100" }}...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="grammarModal{{ lesson.id }}" tabindex="-1" role="dialog" aria-labelledby="grammarModalLabel{{ lesson.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="grammarModalLabel{{ lesson.id }}">{{ lesson.title }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ lesson.content }}
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'mark_lesson_complete' lesson_id=lesson.id lesson_type='grammar' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Complete</button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,664 @@
+
+ {% load static %}
+ <!DOCTYPE html>
+ <html lang="en">
+ 
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+     <link href="{% static 'style2.css' %}" rel="stylesheet">
+     <title>English Learning Dashboard</title>
+     <style>/* General Styles */
+         body {
+             margin: 0;
+             font-family: 'Arial', sans-serif;
+             background-color: #f5f5f5;
+             color: #333;
+         }
+         
+         .container {
+             display: flex;
+             min-height: 100vh;
+         }
+         
+         /* Left Sidebar */
+         .left-section {
+             width: 250px;
+             background-color: #2c3e50;
+             color: white;
+             display: flex;
+             flex-direction: column;
+             justify-content: space-between;
+             padding: 20px;
+             position: fixed;
+             top: 0;
+             bottom: 0;
+         }
+         
+         .logo {
+             text-align: center;
+         }
+         
+         .logo img {
+             width: 80px;
+             margin-bottom: 10px;
+         }
+         
+         .logo a {
+             font-size: 24px;
+             font-weight: bold;
+             color: #ecf0f1;
+             text-decoration: none;
+         }
+         
+         .sidebar .item {
+             padding: 15px;
+             margin: 10px 0;
+             display: flex;
+             align-items: center;
+             transition: background-color 0.3s ease;
+             border-radius: 5px;
+         }
+         
+         .sidebar .item i {
+             font-size: 18px;
+             margin-right: 10px;
+         }
+         
+         .sidebar .item a {
+             color: white;
+             text-decoration: none;
+             font-size: 18px;
+         }
+         
+         .sidebar .item:hover,
+         #active {
+             background-color: #34495e;
+         }
+         
+         .upgrade {
+             text-align: center;
+             margin-top: 20px;
+         }
+         
+         .upgrade h5 {
+             font-size: 16px;
+             margin-bottom: 10px;
+             color: #e73e3e;
+         }
+         
+         .upgrade .link {
+             display: flex;
+             align-items: center;
+             justify-content: center;
+         }
+         
+         .upgrade .link a {
+             text-decoration: none;
+             color: white;
+             font-weight: bold;
+             background-color: #e74c3c;
+             padding: 10px 20px;
+             border-radius: 20px;
+         }
+         
+         .upgrade .link i {
+             font-size: 18px;
+             margin-left: 5px;
+         }
+         
+         /* Main Content */
+         main {
+             margin-left: 250px;
+             padding: 20px;
+             flex-grow: 1;
+         }
+         
+         main header {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             margin-bottom: 20px;
+         }
+         
+         main header h5 {
+             font-size: 18px;
+             color: #2c3e50;
+         }
+         
+         main header h2 {
+             font-size: 32px;
+             font-weight: bold;
+             color: #2c3e50;
+         }
+         
+         .separator {
+             margin-bottom: 20px;
+         }
+         
+         .separator .info {
+             border-bottom: 2px solid #2c3e50;
+             padding-bottom: 10px;
+         }
+         
+         .separator .info h3 {
+             font-size: 24px;
+             margin: 0;
+             color: #2c3e50;
+         }
+         
+         /* Course Topics */
+         .analytics {
+             display: flex;
+             gap: 20px;
+             flex-wrap: wrap;
+         }
+         
+         .analytics .item {
+             background-color: #ecf0f1;
+             border-radius: 10px;
+             padding: 20px;
+             flex-grow: 1;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+             transition: transform 0.3s ease;
+             min-width: 280px;
+         }
+         
+         .analytics .item:hover {
+             transform: translateY(-5px);
+         }
+         
+         .analytics .item .progress .info h5 {
+             font-size: 18px;
+             color: #2980b9;
+             margin: 0;
+         }
+         
+         .analytics .item .progress .info p {
+             font-size: 14px;
+             color: #7f8c8d;
+         }
+         
+         .analytics .item i {
+             font-size: 30px;
+             color: #2c3e50;
+         }
+         
+         /* Responsive Design */
+         @media (max-width: 768px) {
+             .container {
+                 flex-direction: column;
+             }
+         
+             .left-section {
+                 width: 100%;
+                 height: auto;
+                 position: relative;
+             }
+         
+             .main {
+                 margin-left: 0;
+             }
+         
+             .analytics {
+                 flex-direction: column;
+             }
+         }
+
+         .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        audio {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 0 5px #007bff;
+        }
+        
+        .btn:active {
+            background-color: #004085;
+            transform: scale(0.98);
+        }
+        
+        .modal-content .btn {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 10px 0;
+            text-align: center;
+        }
+        
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e73e3e; /* Red color */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .logout-btn i {
+            margin-right: 8px;
+        }
+        
+        
+
+
+</style>
+ </head>
+ 
+ <body>
+ 
+     <div class="container">
+ 
+         <aside class="left-section">
+             <div class="logo">
+                 <button class="menu-btn" id="menu-close">
+                     <i class='bx bx-log-out-circle'></i>
+                 </button>
+                 <img src="{% static 'img/log.png' %}" alt="Logo">
+                 <a href="#">EnglishAI</a>
+             </div>
+ 
+             <div class="sidebar">
+                 <div class="item" id="active">
+                     <i class='bx bx-grid-alt'></i>
+                     <a href="{% url 'home' %}">Dashboard</a>
+                 </div>
+                 <div class="item">
+                     <i class='bx bx-home-alt-2'></i>
+                     <a href="{% url 'course' %}">Courses</a>
+                 </div>
+                 <div class="item">
+                     <i class='bx bx-folder'></i>
+                     <a href="{% url 'resource' %}">Resources</a>
+                 </div>
+             </div>
+ 
+             <div class="upgrade">
+                 <h5>Access AI Model</h5>
+                 <div class="link">
+                     <a href="http://localhost:3000/c/caf57954-23a1-4a3f-bd04-4b942bf524c3"><b>Click</b></a>
+                     <i class='bx bxs-chevron-right' style='color: #e73e3e;'></i>
+                 </div>
+             </div>
+             <div class="logout">
+                <a href="{% url 'logout' %}" class="logout-btn">
+                    <i class='bx bx-log-out'></i> Logout
+                </a>
+            </div>
+         </aside>
+ 
+         <main>
+             <header>
+                 <button class="menu-btn" id="menu-open">
+                     <i class='bx bx-menu'></i>
+                 </button>
+                 <h5>Hello <b>{{ user.first_name }}</b>, welcome back!</h5>
+             </header>
+ 
+             
+                <div class="separator">
+                    <div class="info">
+                        <h3>Your Courses</h3>
+                        <a href="{% url 'course' %}">View All</a>
+                    </div>
+               
+                </div>
+    
+                <div class="analytics">
+                    <div class="item">
+                        <div class="progress">
+                            <div class="info">
+                                <h5>Listening Practice</h5>
+                                <p>{{completed_listening_topics}}/{{ total_listening_topics }} Lessons</p>
+                            </div>
+                            <div class="progress-bar" data-percentage="{{ listening_completion_percentage }}" 
+                                 style="--progress-listening: {{ listening_completion_percentage }};"
+                                 role="progressbar" aria-valuenow="{{ listening_completion_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <i class='bx bx-headphone'></i>
+                    </div>
+                
+                    <div class="item">
+                        <div class="progress">
+                            <div class="info">
+                                <h5>Speaking Practice</h5>
+                                <p>{{ completed_speaking_topics }}/{{total_speaking_topics}} Lessons</p>
+                            </div>
+                            <div class="progress-bar" data-percentage="{{ speaking_completion_percentage }}" 
+                                 style="--progress-speaking: {{ speaking_completion_percentage }};"
+                                 role="progressbar" aria-valuenow="{{ speaking_completion_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <i class='bx bx-microphone'></i>
+                    </div>
+                
+                    <div class="item">
+                        <div class="progress">
+                            <div class="info">
+                                <h5>Grammar Practice</h5>
+                                <p>{{completed_grammar_lessons}}/{{ total_grammar_lessons }} Lessons</p>
+                            </div>
+                            <div class="progress-bar" data-percentage="{{ grammar_completion_percentage }}" 
+                                 style="--progress-grammar: {{ grammar_completion_percentage }};"
+                                 role="progressbar" aria-valuenow="{{ grammar_completion_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <i class='bx bx-book'></i>
+                    </div>
+                
+                    <div class="item">
+                        <div class="progress">
+                            <div class="info">
+                                <h5>Writing Practice</h5>
+                                <p>{{completed_writing_topics}}/{{ total_writing_topics }} Lessons</p>
+                            </div>
+                            <div class="progress-bar" data-percentage="{{ writing_completion_percentage }}" 
+                                 style="--progress-writing: {{ writing_completion_percentage }};"
+                                 role="progressbar" aria-valuenow="{{ writing_completion_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <i class='bx bx-edit-alt'></i>
+                    </div>
+                </div>
+                
+                <div class="separator">
+                    <div class="info">
+                        <h3>Weekly Tasks</h3>
+                    </div>
+                    
+                </div>
+    
+                <div class="planning">
+                    {% for task in weekly_tasks %}
+                        <div class="item" onclick="openTaskModal('{{ task.id }}', '{{ task.title }}', '{{ task.description }}', '{{ task.date }}', '{{ task.audio_file.url }}')">
+                            <div class="left">
+                                <div class="icon">
+                                    <i class='bx bx-calendar'></i>
+                                </div>
+                                <div class="details">
+                                    <h5>{{ task.title }}</h5>
+                                    <p>Date: {{ task.date }}</p>
+                                    <!-- Check if the task ID is in the list of completed task IDs -->
+                                    <p>Status: 
+                                        {% if task.id in completed_task_ids %}
+                                            Completed
+                                        {% else %}
+                                            Not Completed
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="item">
+                            <div class="left">
+                                <div class="icon">
+                                    <i class='bx bx-calendar'></i>
+                                </div>
+                                <div class="details">
+                                    <h5>No weekly tasks available</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                
+                <!-- Modal Structure -->
+                <div id="taskModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeTaskModal()">&times;</span>
+                        <h2 id="modalTitle"></h2>
+                        <p id="modalDate"></p>
+                        <p id="modalDescription"></p>
+                        <audio id="modalAudio" controls>
+                            Your browser does not support the audio element.
+                        </audio>
+                
+                        <!-- Form to mark task as completed -->
+                        <form id="completeTaskForm" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary" id="completeTaskBtn">Complete Task</button>
+                        </form>
+                    </div>
+                </div>
+                
+                
+            </main>
+    
+            <aside class="right-section">
+                <div class="top">
+                    
+                    <div class="profile">
+                        <div class="left">
+                            <img src="{% static 'img/user.jpg' %}" alt="User Profile">
+                            <div class="user">
+                                <h5>{{ user.username }}</h5>
+                                
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+    
+                <div class="separator" id="first">
+                    <h4>Statistics</h4>
+                </div>
+    
+                <div class="stats">
+                    <div class="item">
+                        <div class="top">
+                            <p>Lessons</p>
+                            <p>Completed</p> 
+                        </div>
+                        <div class="bottom">
+                            <div class="line"></div>
+                            <h3>{{ completed_courses }}</h3>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="top">
+                            <p>Total Points</p>
+                            <p>Gained</p>
+                        </div>
+                        <div class="bottom">
+                            <div class="line"></div>
+                            <h3>{{total_points}}</h3>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="top">
+                            <p>Total</p>
+                            <p>Lessons</p>
+                        </div>
+                        <div class="bottom">
+                            <div class="line"></div>
+                            <h3>{{total_courses}}</h3>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="top">
+                            <p>Tasks</p>
+                            <p>Finished</p>
+                        </div>
+                        <div class="bottom">
+                            <div class="line"></div>
+                            <h3>{{completed_tasks}}</h3>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="separator">
+                    <h4>Weekly Progress</h4>
+                </div>
+                
+                <div class="weekly">
+                    <div class="title">
+                        <div class="line"></div>
+                        <h5>Tasks This Week</h5>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ weekly_tasks_progress }}" 
+                    style="--progress-weekly: {{ weekly_task_completion_percentage}};"
+                     aria-valuemin="0" aria-valuemax="100" >
+                        <span>{{ completed_tasks }}/{{ total_weekly_tasks }}</span>
+                    </div>
+                </div>
+                
+                
+            </aside>
+    
+        </div>
+        
+
+
+        <script>
+            function openTaskModal(id, title, description, date, audioUrl) {
+                // Set modal content
+                document.getElementById('modalTitle').innerText = title;
+                document.getElementById('modalDescription').innerText = description;
+                document.getElementById('modalDate').innerText = "Date: " + date;
+                document.getElementById('modalAudio').src = audioUrl;
+                
+                // Update form action to point to the correct URL using JavaScript
+                const formActionUrl = `/lesson/complete/${id}/weeklytask/`;
+                document.getElementById('completeTaskForm').action = formActionUrl;
+                
+                // Show modal
+                document.getElementById('taskModal').style.display = "block";
+                
+                // JavaScript to handle the complete button display after audio ends
+                var audio = document.getElementById('modalAudio');
+                var completeButton = document.getElementById('completeTaskBtn');
+                
+                // Hide the complete button initially
+                completeButton.style.display = 'none';
+                
+                // Add event listener to show the complete button when audio ends
+                audio.addEventListener('ended', function() {
+                    completeButton.style.display = 'inline-block';
+                });
+                
+                // Optionally handle the case where the audio is already finished when the modal opens
+                if (audio.ended) {
+                    completeButton.style.display = 'inline-block';
+                }
+            }
+            
+        
+            function closeTaskModal() {
+                document.getElementById('taskModal').style.display = "none";
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('main .analytics .item').forEach(item => {
+                    const progressBar = item.querySelector('.progress-bar');
+                    let percentage = parseFloat(progressBar.getAttribute('data-percentage'));
+            
+                    // Round to the nearest whole number
+                    percentage = Math.round(percentage);
+            
+                    const progressType = item.querySelector('.info h5').textContent.split(' ')[0].toLowerCase();
+                    const progressVar = `--progress-${progressType}`;
+                    const color = getColorForType(progressType); // Function to get color based on type
+            
+                    // Update the progress bar background and text
+                    progressBar.style.setProperty(progressVar, `${percentage}%`);
+                    progressBar.style.background = `radial-gradient(closest-side, ${color} 79%, transparent 80% 100%),
+                                                    conic-gradient(${color} calc(100% - var(${progressVar})), #fff 0%)`;
+                    progressBar.setAttribute('data-progress-text', `${percentage}%`);
+                });
+            });
+            
+            function getColorForType(type) {
+                switch (type) {
+                    case 'listening': return '#00d37b';
+                    case 'speaking': return '#FF993A';
+                    case 'grammar': return '#c5793e';
+                    case 'writing': return '#FFD043';
+                    default: return '#000'; // Fallback color
+                }
+            }
+            
+            
+            
+        
+            // Close the modal when clicking outside
+            window.onclick = function(event) {
+                var modal = document.getElementById('taskModal');
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+        
+        
+    
+        <script src="{% static 'script2.js' %}"></script>
+    </body>
+ </html>
+ 

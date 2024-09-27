@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaking Topics</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .card-text {
+            font-size: 1.2em;
+            color: #f0f0f0;
+        }
+
+        /* Different colors for cards */
+        .bg-blue {
+            background-color: #007bff;
+        }
+
+        .bg-yellow {
+            background-color: #ffc107;
+        }
+
+        .bg-green {
+            background-color: #28a745;
+        }
+
+        .bg-orange {
+            background-color: #fd7e14;
+        }
+
+        .bg-red {
+            background-color: #dc3545;
+        }
+
+        .bg-purple {
+            background-color: #6f42c1;
+        }
+
+        /* Custom styles for the recorder */
+        .audio-recorder {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .audio-recorder button {
+            margin-right: 10px;
+        }
+
+        .audio-upload {
+            margin-top: 15px;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 30px; /* Adjust if needed */
+            background-color: #dc3545; /* Red background */
+            color: white; /* White text */
+            border: none;
+            border-radius: 25px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for better size */
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #c82333; /* Slightly darker red on hover */
+        }
+    </style>
+</head>
+
+
+<body>
+    
+        <button onclick="window.history.back()" class="back-button">
+            ← Back
+        </button>
+    <div class="container">
+        <h1 class="mt-5">Speaking Topics</h1>
+        <div class="row">
+            {% for topic in topics %}
+                <div class="col-md-4">
+                    <div class="card {% cycle 'bg-blue' 'bg-yellow' 'bg-green' 'bg-orange' 'bg-red' 'bg-purple' %}">
+                        <div class="card-body" data-toggle="modal" data-target="#speakingModal{{ topic.id }}">
+                            <h5 class="card-title">{{ topic.title }}</h5>
+                            <p class="card-text">{{ topic.description|slice:":100" }}...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="speakingModal{{ topic.id }}" tabindex="-1" role="dialog" aria-labelledby="speakingModalLabel{{ topic.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="speakingModalLabel{{ topic.id }}">{{ topic.title }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>{{ topic.description }}</p>
+
+                                <!-- Audio Recorder and Upload -->
+                                <div class="audio-recorder">
+                                    <button class="btn btn-primary" id="startRecording{{ topic.id }}">Start Recording</button>
+                                    <button class="btn btn-danger" id="stopRecording{{ topic.id }}" disabled>Stop Recording</button>
+                                    <audio id="audioPlayback{{ topic.id }}" controls></audio>
+                                </div>
+
+                                <div class="audio-upload">
+                                    <label for="audioFileUpload{{ topic.id }}">Upload Voice File:</label>
+                                    <input type="file" id="audioFileUpload{{ topic.id }}" accept="audio/*">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post" action="{% url 'mark_lesson_complete' lesson_id=topic.id lesson_type='speaking' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Complete</button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Audio Recording Script -->
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+
+        function setupRecorder(topicId) {
+            const startButton = document.getElementById(`startRecording${topicId}`);
+            const stopButton = document.getElementById(`stopRecording${topicId}`);
+            const audioPlayback = document.getElementById(`audioPlayback${topicId}`);
+
+            startButton.addEventListener('click', async () => {
+                startButton.disabled = true;
+                stopButton.disabled = false;
+
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg-3' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    audioPlayback.src = audioUrl;
+                    audioChunks = []; // Clear the chunks for the next recording
+                };
+
+                mediaRecorder.start();
+            });
+
+            stopButton.addEventListener('click', () => {
+                mediaRecorder.stop();
+                stopButton.disabled = true;
+                startButton.disabled = false;
+            });
+        }
+
+        {% for topic in topics %}
+            setupRecorder({{ topic.id }});
+        {% endfor %}
+    </script>
+</body>
+
+</html>

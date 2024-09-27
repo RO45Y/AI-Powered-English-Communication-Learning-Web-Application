@@ -1,0 +1,127 @@
+
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+        *,
+        *:before,
+        *:after{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #e0f7fa; /* Light blue background */
+        }
+        .background{
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffffff 50%, #07f5d6 50%); /* White and blue gradient background */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        form{
+            height: 490px;
+            width: 450px;
+            background-color: rgb(255 255 255 / 44%);; /* Slightly transparent white */
+            position: absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1);
+            padding: 50px 35px;
+        }
+        form *{
+            font-family: 'Poppins',sans-serif;
+            color: #0d47a1; /* Dark blue text color */
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+        form h3{
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+        }
+        label{
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        input{
+            display: block;
+            height: 40px;
+            width: 100%;
+            background-color: rgba(187, 222, 251, 0.46); /* Light blue input background */
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 2px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+        ::placeholder{
+            color:#555959;
+        }
+        button{
+            margin-top: 14px;
+            width: 100%;
+            background-color: #0d47a1; /* Dark blue button */
+            color: #ffffff;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1565c0; /* Lighter blue on hover */
+        }
+        a {
+            color: #0d47a1; /* Dark blue link color */
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+    <body>
+        <div class="background">
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <form method="post">
+            <h3>Login Here</h3>
+            {% csrf_token %}
+            {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        </script>
+        {% endif %}
+            <label for="username">Username</label>
+            <input type="text" placeholder="Enter Username" id="username" name="username">
+            <br>
+
+            <label for="username">Password</label>
+            <input type="password" placeholder="Enter Password" id="password" name="pass">
+            <br>
+
+            <button type="submit">Log In</button>
+            <br>
+
+            <a href="{% url 'register' %}">Create a account</a>
+        </form>
+    </body>
+</html>

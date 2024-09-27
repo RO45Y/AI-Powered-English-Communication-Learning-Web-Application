@@ -1,0 +1,390 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fullstack Developer</title>
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- AOS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'favicon.png' %}" />
+  </head>
+
+  <body>
+    <div class="bg"></div>
+
+    <!-- Navbar -->
+<nav data-aos="fade-down" data-aos-delay="800">
+    <div class="container">
+      <div class="navbar-brand">
+        <a><i class="fab fa-slack"></i></a>
+      </div>
+  
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#benefits">Benefits</a></li>
+        <li><a href="#showcase">Showcase</a></li>
+        <li><a href="#footer">Contact-Us</a></li>
+  
+        <div class="nav-akun">
+          <!-- Link to the login page -->
+          <a href="{% url 'login' %}">
+            <button class="btn login">Login</button>
+          </a>
+          <!-- Link to the registration page -->
+          <a href="{% url 'register' %}">
+            <button class="btn sign-up">Sign Up</button>
+          </a>
+        </div>
+      </ul>
+  
+      <div class="akun">
+        <!-- Link to the login page -->
+        <a href="{% url 'login' %}">
+          <button class="btn login">Login</button>
+        </a>
+        <!-- Link to the registration page -->
+        <a href="{% url 'register' %}">
+          <button class="btn sign-up">Sign Up</button>
+        </a>
+      </div>
+  
+      <div class="menu-toggle">
+        <input type="checkbox" />
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+  <!-- Akhir Navbar -->
+  
+    <!-- Header -->
+    <div class="bg-header">
+      <div class="container">
+        <div class="header">
+          <div class="content" data-aos="fade-right" data-aos-delay="200">
+            <h1 class="title">
+              Master English Conversations with AI
+            </h1>
+            <p class="subtitle">
+              Enhance your English speaking skills through AI-driven conversations and personalized feedback. Join our community to experience real-time learning.
+            </p>
+            <div class="button-header">
+              
+              <a href="{% url 'login' %}">
+                <button class="btn get-started">Get Started</button>
+              </a>
+              
+            </div>
+          </div>
+
+          <div class="image" data-aos="fade-left" data-aos-delay="200">
+            <img src="{% static 'img/logo2.png' %}" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Header -->
+
+    <!-- Alur Belajar -->
+    <div
+      class="bg-overview"
+      id="overview"
+      data-aos="fade-right"
+      data-aos-delay="200"
+    >
+      <div class="boost">
+        <div class="container">
+          <div class="overview">
+            <div class="title">
+              <h1>Why Choose Our AI-Powered Platform?</h1>
+              <p>
+                Our AI-powered system offers a range of features to improve your English conversation skills.
+              </p>
+            </div>
+
+            <div class="path">
+              <div class="overview-path ui">
+                <img src="{% static 'img/speak.png' %}" />
+                <h1>Speech Recognition</h1>
+                <p>
+                  Accurate real-time speech recognition that understands your voice and accent.
+                </p>
+              </div>
+
+              <div class="overview-path ux">
+                <img src="{% static 'img/language.png' %}" />
+                <h1>Natural Language Processing</h1>
+                <p>
+                  Our AI interprets and responds naturally to your conversations.
+                </p>
+              </div>
+
+              <div class="overview-path db">
+                <img src="{% static 'img/chat.png' %}" />
+                <h1>Conversation Analysis</h1>
+                <p>
+                  Detailed analysis of your conversations to identify strengths and weaknesses.
+                </p>
+              </div>
+
+              <div class="overview-path cd">
+                <img src="{% static 'img/reading.png' %}" />
+                <h1>Personalized Learning</h1>
+                <p>
+                  Tailored feedback and learning paths based on your progress.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Alur Belajar -->
+<!-- Benefit -->
+<div class="container" id="benefits">
+  <div class="benefit" data-aos="fade-right" data-aos-delay="200">
+      <div class="image">
+          <img src="{% static 'img/benefit.png' %}" />
+      </div>
+
+      <div class="title">
+          <h1>
+              Discover the Benefits of Joining Our AI-Powered Learning Platform
+          </h1>
+          <p>
+              Unlock a comprehensive learning experience designed to accelerate your growth with cutting-edge AI tools. Here's what you'll gain:
+          </p>
+          <br />
+
+          <div class="benefits">
+              <h3><i class="fa fa-check"></i></h3>
+              <p>AI-Driven Personalized Learning Paths</p>
+          </div>
+
+          <div class="benefits">
+              <h3><i class="fa fa-check"></i></h3>
+              <p>Real-Time Language Proficiency Feedback</p>
+          </div>
+
+          <div class="benefits">
+              <h3><i class="fa fa-check"></i></h3>
+              <p>Interactive Voice-Enabled Chatbots</p>
+          </div>
+
+          <div class="benefits">
+              <h3><i class="fa fa-check"></i></h3>
+              <p>Comprehensive Skill Assessment and Analytics</p>
+          </div>
+
+          <div class="benefits">
+              <h3><i class="fa fa-check"></i></h3>
+              <p>24/7 Access to AI Tutors for Instant Support</p>
+          </div>
+
+          
+      </div>
+  </div>
+</div>
+<!-- End Benefit -->
+
+<!-- Showcase -->
+<div class="container" id="showcase">
+  <div class="showcase">
+      <div class="title" data-aos="fade-up" data-aos-delay="200">
+          <h1>Showcase Spot</h1>
+          <p>Explore AI-driven chatbots designed for various learning and assessment purposes</p>
+      </div>
+      <div class="showcase-member">
+          <!-- Card 1: AI-Powered English Tutor -->
+          <div class="card" data-aos="fade-up" data-aos-delay="200">
+              <div class="profile">
+                  <img src="{% static 'img/oi.png' %}" />
+                  <div class="profile-title">
+                      <h2>Naira Safana</h2>
+                      <p>AI English Tutor</p>
+                  </div>
+              </div>
+              <img src="{% static 'img/robot.png' %}" class="showcase-img" />
+              <p>Interactive English Tutor Chatbot</p>
+              <div class="tool">
+                  <h6 class="python"><i class="fab fa-python"></i></h6>
+                  <h6 class="nlp"><i class="fas fa-language"></i></h6>
+                  <h6 class="tensorflow"><i class="fas fa-brain"></i></h6>
+              </div>
+              <button class="btn view-profile">View Profile</button>
+          </div>
+
+          <!-- Card 2: AI-Powered IELTS Examiner -->
+          <div class="card" data-aos="fade-up" data-aos-delay="400">
+              <div class="profile">
+                  <img src="{% static 'img/oi.png' %}" />
+                  <div class="profile-title">
+                      <h2>Kevin Adrian</h2>
+                      <p>IELTS Examiner</p>
+                  </div>
+              </div>
+              <img src="{% static 'img/rob.png' %}" class="showcase-img" />
+              <p>AI-Based IELTS Exam Preparation Chatbot</p>
+              <div class="tool">
+                  <h6 class="python"><i class="fab fa-python"></i></h6>
+                  <h6 class="nlp"><i class="fas fa-language"></i></h6>
+                  <h6 class="pytorch"><i class="fas fa-brain"></i></h6>
+              </div>
+              <button class="btn view-profile">View Profile</button>
+          </div>
+
+          <!-- Card 3: AI-Powered Career Advisor -->
+          <div class="card" data-aos="fade-up" data-aos-delay="600">
+              <div class="profile">
+                  <img src="{% static 'img/oi.png' %}" />
+                  <div class="profile-title">
+                      <h2>Irham Shidiq</h2>
+                      <p>Career Advisor</p>
+                  </div>
+              </div>
+              <img src="{% static 'img/robot2.png' %}" class="showcase-img" />
+              <p>AI-Powered Career Guidance Chatbot</p>
+              <div class="tool">
+                  <h6 class="python"><i class="fab fa-python"></i></h6>
+                  <h6 class="tensorflow"><i class="fas fa-brain"></i></h6>
+                  <h6 class="ai"><i class="fas fa-robot"></i></h6>
+              </div>
+              <button class="btn view-profile">View Profile</button>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- End Showcase -->
+
+<!-- Get Started -->
+<div class="container" data-aos="zoom-in" data-aos-delay="200">
+  <div class="started">
+      <div class="content">
+          <div class="title">
+              <h1>Ready to Elevate Your Learning?</h1>
+              <p>
+                  Explore AI-powered tools designed to enhance your skills, whether you're preparing for exams, improving your language proficiency, or seeking career advice. Let's start your journey today!
+              </p>
+          </div>
+
+          
+          <a href="{% url 'login' %}">
+            <button class="btn get-started">Get Started</button>
+          </a>
+      </div>
+  </div>
+</div>
+<!-- End Get Started -->
+
+<!-- Footer -->
+<div class="footer" id="footer" data-aos="fade-up" data-aos-delay="200">
+  <div class="container">
+      <hr />
+
+      <div class="row">
+          <div class="col-3">
+              <div class="logo">
+                  <h1>
+                      <a><i class="fab fa-slack"></i></a>
+                  </h1>
+                  <h1>Contact-Us</h1>
+                  <p>
+                      Shivshati Nagar, Turbhe Store, Turbhe, Navi Mumbai, Maharashtra 400705
+                  </p>
+                  <div class="contact">
+                      <h6><i class="fas fa-phone-alt"></i></h6>
+                      <p>8591510526</p>
+                  </div>
+                  <div class="contact">
+                      <h6><i class="fas fa-envelope"></i></h6>
+                      <p>abhi.ya45187@gmail.com</p>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-1">
+              <h1>Support</h1>
+
+              <ul>
+                  <li><p><a href="#">Dashboard</a></p></li>
+                  <li><p><a href="#">Event</a></p></li>
+                  <li><p><a href="#">Consultant</a></p></li>
+                  <li><p><a href="#">Documents</a></p></li>
+                  <li><p><a href="#">Contact Us</a></p></li>
+              </ul>
+          </div>
+
+          <div class="col-1">
+              <h1>Links</h1>
+
+              <ul>
+                  <li><p><a href="#">Sign Up</a></p></li>
+                  <li><p><a href="#">Login</a></p></li>
+                  <li><p><a href="#">Pricing</a></p></li>
+                  <li><p><a href="#">Blog</a></p></li>
+                  <li><p><a href="#">Testimonial</a></p></li>
+              </ul>
+          </div>
+
+          <div class="col-1">
+              <h1>Company</h1>
+
+              <ul>
+                  <li><p><a href="#">About Us</a></p></li>
+                  <li><p><a href="#">Request Feature</a></p></li>
+                  <li><p><a href="#">Support Pricing</a></p></li>
+                  <li><p><a href="#">Guideline</a></p></li>
+                  <li><p><a href="#">Privacy Policy</a></p></li>
+              </ul>
+          </div>
+
+          <div class="col-1">
+              <h1>Social</h1>
+
+              <ul>
+                  <li><p><a href="#">Facebook</a></p></li>
+                  <li><p><a href="#">Instagram</a></p></li>
+                  <li><p><a href="#">Github</a></p></li>
+                  <li><p><a href="#">LinkedIn</a></p></li>
+                  <li><p><a href="#">Youtube</a></p></li>
+              </ul>
+          </div>
+      </div>
+
+      <p class="copyright">
+          &copy; Copyright 2020 by <span>Rohit Yadav</span>
+      </p>
+  </div>
+</div>
+<!-- End Footer -->
+
+{% load static %}
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init({
+      duration: 700,
+  });
+</script>
+
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

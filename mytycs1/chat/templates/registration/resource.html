@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="{% static 'style2.css' %}" rel="stylesheet">
+    <title>English Learning Dashboard</title>
+    <style>
+        /* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Left Sidebar */
+.left-section {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.logo a {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+.sidebar .item {
+    padding: 15px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.sidebar .item i {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.sidebar .item a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.sidebar .item:hover,
+#active {
+    background-color: #34495e;
+}
+
+.upgrade {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.upgrade h5 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.upgrade .link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upgrade .link a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    background-color: #e74c3c;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.upgrade .link i {
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+/* Main Content */
+main {
+    margin-left: 250px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+main header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+main header h5 {
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+main header h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Resource Categories */
+.resources-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.resource-category {
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    padding: 20px;
+    flex-grow: 1;
+    min-width: 280px;
+}
+
+.resource-category h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.resource-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.resource-item h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #2980b9;
+}
+
+.resource-item p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.resource-item a {
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.resource-item a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-section {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .resources-container {
+        flex-direction: column;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <aside class="left-section">
+            <div class="logo">
+                <button class="menu-btn" id="menu-close">
+                    <i class='bx bx-log-out-circle'></i>
+                </button>
+                <img src="{% static 'img/log.png' %}" alt="Logo">
+                <a href="#">EnglishAI</a>
+            </div>
+
+            <div class="sidebar">
+                <div class="item">
+                    <i class='bx bx-grid-alt'></i>
+                    <a href="{% url 'home' %}">Dashboard</a>
+                </div>
+                <div class="item">
+                    <i class='bx bx-home-alt-2'></i>
+                    <a href="{% url 'course' %}">Courses</a>
+                </div>
+                <div class="item" id="active">
+                    <i class='bx bx-folder'></i>
+                    <a href="{% url 'resource' %}">Resources</a>
+                </div>
+            </div>
+
+            <div class="upgrade">
+                <h5>Access AI Model</h5>
+                <div class="link">
+                    <a href="http://localhost:3000/c/caf57954-23a1-4a3f-bd04-4b942bf524c3"><b>Click</b></a>
+                    <i class='bx bxs-chevron-right'></i>
+                </div>
+            </div>
+        </aside>
+
+        <main>
+            <header>
+                <button class="menu-btn" id="menu-open">
+                    <i class='bx bx-menu'></i>
+                </button>
+                <h5>Hello <b>{{ user.first_name }}</b>, welcome back!</h5>
+            </header>
+
+            <header>
+                <h2>Resources</h2>
+            </header>
+            <div class="resources-container">
+                <!-- YouTube Videos Category -->
+                <div class="resource-category">
+                    <h3>YouTube Videos</h3>
+
+                    <div class="resource-item">
+                        <h4>English Grammar Tips</h4>
+                        <p>Category: YouTube Video</p>
+                        <a href="https://www.youtube.com/results?search_query=English+Grammar+Tips" target="_blank">Watch Video</a>
+                        <p>Date: 01/09/2024</p>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>IELTS Listening Practice</h4>
+                        <p>Category: YouTube Video</p>
+                        <a href="https://www.youtube.com/@TheIELTSListeningTest/playlists" target="_blank">Watch Video</a>
+                        <p>Date: 01/09/2024</p>
+                    </div>
+                </div>
+
+                <!-- Website Links Category -->
+                <div class="resource-category">
+                    <h3>Website Links</h3>
+
+                    <div class="resource-item">
+                        <h4>English Vocabulary Exercises</h4>
+                        <p>Category: Website Link</p>
+                        <a href="https://www.esl-lounge.com/student/vocabulary.php" target="_blank">Visit Website</a>
+                        <p>Date: 01/09/2024</p>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Advanced Grammar Exercises</h4>
+                        <p>Category: Website Link</p>
+                        <a href="https://www.englishtestsonline.com/english-grammar-tests/advanced/" target="_blank">Visit Website</a>
+                        <p>Date: 01/09/2024</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="{% static 'js/script2.js' %}"></script>
+</body>
+
+</html>
